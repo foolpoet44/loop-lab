@@ -1,0 +1,17 @@
+{
+  "schema_version": "0.1",
+  "id": "WL-0001",
+  "activity": "추진현황 수집·검증·보고",
+  "l1_job": "과제 운영",
+  "l2_task": "추진현황 취합",
+  "hours_per_month": 12,
+  "frequency": "정기",
+  "input": "과제 담당자별 추진현황 입력값",
+  "logic": "누락·형식 오류를 점검하고 과제별로 취합한다",
+  "output": "취합된 추진현황 보고 초안",
+  "structure": "반정형",
+  "judgment": "일부",
+  "sensitivity": "낮음",
+  "approval": "조건부",
+  "note": "자리표시 값. 실제 원장 값으로 교체할 것"
+}

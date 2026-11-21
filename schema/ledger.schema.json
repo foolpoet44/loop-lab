@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ledger.schema.json",
+  "title": "업무 원장 한 행",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "activity",
+    "l1_job",
+    "l2_task",
+    "hours_per_month",
+    "frequency",
+    "input",
+    "logic",
+    "output",
+    "structure",
+    "judgment",
+    "sensitivity",
+    "approval"
+  ],
+  "properties": {
+    "schema_version": { "const": "0.1" },
+    "id": { "type": "string", "pattern": "^WL-[0-9]{4}$" },
+    "activity": { "type": "string", "minLength": 1 },
+    "l1_job": { "type": "string", "minLength": 1 },
+    "l2_task": { "type": "string", "minLength": 1 },
+    "hours_per_month": { "type": "number", "minimum": 0 },
+    "frequency": { "enum": ["일회성", "정기", "상시"] },
+    "input": { "type": "string", "minLength": 1 },
+    "logic": { "type": "string", "minLength": 1 },
+    "output": { "type": "string", "minLength": 1 },
+    "structure": { "enum": ["정형", "반정형", "비정형"] },
+    "judgment": { "enum": ["없음", "일부", "핵심"] },
+    "sensitivity": { "enum": ["낮음", "중간", "높음"] },
+    "approval": { "enum": ["없음", "조건부", "필수"] },
+    "note": { "type": "string" }
+  }
+}
