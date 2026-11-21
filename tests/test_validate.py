@@ -11,7 +11,9 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import validate  # noqa: E402
 
 GOOD = json.loads((ROOT / "data" / "ledger" / "WL-0001.json").read_text(encoding="utf-8"))
-REQUIRED = json.loads((ROOT / "schema" / "ledger.schema.json").read_text(encoding="utf-8"))["required"]
+SCHEMA = json.loads((ROOT / "schema" / "ledger.schema.json").read_text(encoding="utf-8"))
+REQUIRED = SCHEMA["required"]
+TAG_REQUIRED = SCHEMA["properties"]["tags"]["required"]
 
 
 def run(row):
@@ -32,9 +34,19 @@ def main():
         bad = copy.deepcopy(GOOD)
         del bad[field]
         results.append(check(f"필수 필드 '{field}' 제거 시 실패", run(bad), 1))
+    for tag in TAG_REQUIRED:
+        bad = copy.deepcopy(GOOD)
+        del bad["tags"][tag]
+        results.append(check(f"태그 '{tag}' 제거 시 실패", run(bad), 1))
     bad = copy.deepcopy(GOOD)
-    bad["sensitivity"] = "매우높음"
+    bad["tags"]["sensitivity"] = "매우높음"
     results.append(check("허용 외 enum 값은 실패", run(bad), 1))
+    bad = copy.deepcopy(GOOD)
+    bad["declared_reduction_rate"] = 1.5
+    results.append(check("감축률 1 초과는 실패", run(bad), 1))
+    bad = copy.deepcopy(GOOD)
+    bad["writer_name"] = "x"
+    results.append(check("작성자 식별 필드는 스키마가 거부", run(bad), 1))
     bad = copy.deepcopy(GOOD)
     bad["hours_per_month"] = -1
     results.append(check("음수 시간은 실패", run(bad), 1))

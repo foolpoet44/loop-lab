@@ -1,0 +1,35 @@
+{
+  "rules_version": "0.1",
+  "note": "v0 초안. 임계값과 표는 이 파일에서만 바꾼다. 판정기 코드는 이 파일을 해석할 뿐이다.",
+  "should": {
+    "min_hours_per_month": 5,
+    "require_declared_reduction_rate_above": 0
+  },
+  "can": {
+    "정형": { "없음": "예", "일부": "예", "핵심": "부분" },
+    "반정형": { "없음": "예", "일부": "부분", "핵심": "부분" },
+    "비정형": { "없음": "부분", "일부": "아니오", "핵심": "아니오" }
+  },
+  "may": [
+    { "id": "M1", "when": { "approval": "필수", "sensitivity": "높음" }, "value": "아니오" },
+    {
+      "id": "M2",
+      "when": {
+        "any": [
+          { "sensitivity": "높음" },
+          { "approval": "조건부" },
+          { "approval": "필수" }
+        ]
+      },
+      "value": "조건부"
+    },
+    { "id": "M3", "value": "예" }
+  ],
+  "verdicts": [
+    { "id": "R1", "when": { "any": [{ "can": "아니오" }, { "may": "아니오" }] }, "verdict": "사람 고유" },
+    { "id": "R2", "when": { "can": "부분" }, "verdict": "사람 주도 · AI 보조" },
+    { "id": "R3", "when": { "can": "예", "should": "아니오" }, "verdict": "개별 설계" },
+    { "id": "R4", "when": { "can": "예", "should": "예", "may": "조건부" }, "verdict": "승인 조건부" },
+    { "id": "R5", "when": { "can": "예", "should": "예", "may": "예" }, "verdict": "바로 위임" }
+  ]
+}
